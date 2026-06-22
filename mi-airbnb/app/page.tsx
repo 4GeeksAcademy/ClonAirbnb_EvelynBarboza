@@ -27,20 +27,28 @@ export default function HomePage() {
     return rooms.filter((room) => room.title.toLowerCase().includes(normalizedSearch));
   }, [rooms, searchTerm]);
 
-  const firstSectionRooms = useMemo(() => {
+  const popularSections = useMemo(() => {
+    const baseSections = [
+      { title: "Alojamientos populares en Buenos Aires", offset: 0 },
+      { title: "Alojamientos populares en Rio de Janeiro", offset: 2 },
+      { title: "Alojamientos populares en Barcelona", offset: 4 },
+    ];
+
     if (filteredRooms.length === 0) {
-      return [];
+      return baseSections.map((section) => ({ ...section, rooms: [] as Accommodation[] }));
     }
 
-    const sevenRooms = [...filteredRooms];
+    const buildSevenRooms = (offset: number) =>
+      Array.from({ length: 7 }, (_, index) => {
+        const roomIndex = (index + offset) % filteredRooms.length;
+        return filteredRooms[roomIndex];
+      });
 
-    let index = 0;
-    while (sevenRooms.length < 7) {
-      sevenRooms.push(filteredRooms[index % filteredRooms.length]);
-      index += 1;
-    }
-
-    return sevenRooms.slice(0, 7);
+    return baseSections.map((section) => ({
+      title: section.title,
+      offset: section.offset,
+      rooms: buildSevenRooms(section.offset),
+    }));
   }, [filteredRooms]);
 
   return (
@@ -49,34 +57,38 @@ export default function HomePage() {
 
       <main className="mx-auto max-w-[1700px] px-4 py-9 md:px-10">
         <section className="space-y-5">
-          <div className="flex items-center justify-between">
-            <h1 className="text-[40px] leading-tight font-extrabold text-zinc-900 md:text-[41px]">
-              Alojamientos populares en Buenos Aires
-            </h1>
+          {popularSections.map((section) => (
+            <div key={section.title} className="space-y-5">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl leading-tight font-extrabold text-zinc-900 md:text-[41px]">
+                  {section.title}
+                </h1>
 
-            <div className="hidden items-center gap-2 md:flex">
-              <button
-                type="button"
-                className="grid h-12 w-12 place-items-center rounded-full bg-zinc-100 text-[26px] text-zinc-400"
-                aria-label="Anterior"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="grid h-12 w-12 place-items-center rounded-full bg-zinc-100 text-[26px] text-zinc-700"
-                aria-label="Siguiente"
-              >
-                ›
-              </button>
+                <div className="hidden items-center gap-2 md:flex">
+                  <button
+                    type="button"
+                    className="grid h-12 w-12 place-items-center rounded-full bg-zinc-100 text-[26px] text-zinc-400"
+                    aria-label="Anterior"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    type="button"
+                    className="grid h-12 w-12 place-items-center rounded-full bg-zinc-100 text-[26px] text-zinc-700"
+                    aria-label="Siguiente"
+                  >
+                    ›
+                  </button>
+                </div>
+              </div>
+
+              {loading ? (
+                <LoadingState label="Buscando alojamientos para ti..." />
+              ) : (
+                <AccommodationGrid rooms={section.rooms} />
+              )}
             </div>
-          </div>
-
-          {loading ? (
-            <LoadingState label="Buscando alojamientos para ti..." />
-          ) : (
-            <AccommodationGrid rooms={firstSectionRooms} />
-          )}
+          ))}
         </section>
       </main>
     </div>

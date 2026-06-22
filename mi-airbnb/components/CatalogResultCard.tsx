@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Accommodation } from "@/types/accommodation";
 
@@ -51,12 +52,14 @@ export function CatalogResultCard({ room }: CatalogResultCardProps) {
   return (
     <Link href={cardHref} className="group block">
       <article className="space-y-3">
-        <div
-          className="relative h-[268px] w-full overflow-hidden rounded-3xl bg-zinc-200 bg-cover bg-center"
-          style={{ backgroundImage: `url(${room.imageUrl})` }}
-          role="img"
-          aria-label={room.title}
-        >
+        <div className="relative h-[268px] w-full overflow-hidden rounded-3xl bg-zinc-200">
+          <Image
+            src={room.imageUrl}
+            alt={room.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover"
+          />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
             <span className="rounded-full bg-white/95 px-3 py-1 text-sm font-semibold text-zinc-700">
               🏆 Favorito entre huespedes

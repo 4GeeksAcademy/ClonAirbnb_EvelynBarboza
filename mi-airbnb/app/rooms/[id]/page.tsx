@@ -60,12 +60,21 @@ export default function RoomDetailPage() {
       <DetailTopNav />
 
       <main className="mx-auto max-w-[1240px] space-y-7 px-4 py-7 md:px-8 md:py-8">
+        <div>
+          <Link
+            href="/catalog"
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+          >
+            ← Volver al catálogo
+          </Link>
+        </div>
+
         <section className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-[43px] leading-[1.08] font-extrabold text-zinc-900">
+          <h1 className="text-2xl leading-tight font-extrabold text-zinc-900 md:text-[43px] md:leading-[1.08]">
             {room.title} · {Math.min(4, Math.max(2, Math.round(room.reviews / 30)))} personas
           </h1>
 
-          <div className="flex items-center gap-5 text-[16px] font-semibold text-zinc-700">
+          <div className="flex items-center gap-4 text-sm font-semibold text-zinc-700 md:gap-5 md:text-[16px]">
             <button type="button" className="inline-flex items-center gap-2 underline underline-offset-2">
               ↥ Compartir
             </button>
@@ -80,26 +89,28 @@ export default function RoomDetailPage() {
         <section className="grid gap-8 md:grid-cols-[1.7fr_1fr]">
           <div className="space-y-6">
             <article className="space-y-2 border-b border-zinc-200 pb-6">
-              <h2 className="text-[43px] leading-[1.08] font-extrabold text-zinc-900">
+              <h2 className="text-2xl leading-tight font-extrabold text-zinc-900 md:text-[43px] md:leading-[1.08]">
                 Alojamiento entero: alojamiento en {room.location}
               </h2>
-              <p className="text-[37px] leading-10 font-medium text-zinc-700">
+              <p className="text-lg leading-7 font-medium text-zinc-700 md:text-[37px] md:leading-10">
                 {Math.max(2, Math.min(5, Math.round(room.reviews / 20)))} huéspedes · 1 habitación · 2 camas · 1 baño
               </p>
-              <p className="text-[34px] leading-9 font-semibold text-zinc-800">
+              <p className="text-lg leading-7 font-semibold text-zinc-800 md:text-[34px] md:leading-9">
                 ★ {room.rating.toFixed(1)} · {room.reviews} reseñas
               </p>
             </article>
 
             <article className="space-y-3 border-b border-zinc-200 pb-6">
-              <h3 className="text-[34px] leading-9 font-bold text-zinc-900">Anfitrión</h3>
+              <h3 className="text-xl leading-7 font-bold text-zinc-900 md:text-[34px] md:leading-9">Anfitrión</h3>
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-rose-100 text-lg font-bold text-rose-500">
                   {room.host.avatarLabel}
                 </div>
                 <div>
-                  <p className="text-[31px] leading-8 font-semibold text-zinc-800">{room.host.name}</p>
-                  <p className="text-[26px] leading-7 text-zinc-500">
+                  <p className="text-lg leading-7 font-semibold text-zinc-800 md:text-[31px] md:leading-8">
+                    {room.host.name}
+                  </p>
+                  <p className="text-sm leading-6 text-zinc-500 md:text-[26px] md:leading-7">
                     {room.host.yearsHosting} años como anfitrión
                   </p>
                 </div>
@@ -107,12 +118,12 @@ export default function RoomDetailPage() {
             </article>
 
             <article className="space-y-4">
-              <h3 className="text-[34px] leading-9 font-bold text-zinc-900">Servicios</h3>
+              <h3 className="text-xl leading-7 font-bold text-zinc-900 md:text-[34px] md:leading-9">Servicios</h3>
               <div className="grid grid-cols-2 gap-3">
                 {room.amenities.map((amenity) => (
                   <div
                     key={amenity}
-                    className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-[23px] leading-6 font-medium text-zinc-700"
+                    className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm leading-5 font-medium text-zinc-700 md:text-[23px] md:leading-6"
                   >
                     {amenity}
                   </div>

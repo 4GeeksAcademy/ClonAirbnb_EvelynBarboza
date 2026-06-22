@@ -16,8 +16,8 @@ export function AccommodationGrid({ rooms }: AccommodationGridProps) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7">
-      {rooms.map((room) => (
-        <AccommodationCard key={room.id} room={room} />
+      {rooms.map((room, index) => (
+        <AccommodationCard key={`${room.id}-${index}`} room={room} />
       ))}
     </div>
   );
